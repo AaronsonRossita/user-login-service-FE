@@ -14,7 +14,7 @@ function RegisteredStudent(props){
                 <div className="registration-student__course">
                     {registeredStudent.course}
                 </div>
-                <CourseDate selectedCourse={selectedCourse}></CourseDate>
+                <CourseDate selectedCourse={selectedCourse}/>
             </div>
         </div>
     )
