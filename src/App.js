@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import './App.css';
 import RegisteredStudent from "./components/studentRegistrations/RegisteredStudent";
+import NewStudent from "./components/newStudent/NewStudent";
 
 const DUMMY_REGISTERED_STUDENTS = [
   {
@@ -34,10 +35,31 @@ const DUMMY_COURSES = [
 ];
 
 function App() {
+
+  const [registeredStudents, setRegisteredStudents] = useState(DUMMY_REGISTERED_STUDENTS);
+
+
+  const addStudentHandler = (registeredStudent) => {
+      setRegisteredStudents((prevStudents => {
+          return [registeredStudent, ...prevStudents]
+      }));
+  }
+
+  const newStudentRegisteredHandler = (student) => {
+      const registeredStudent = {
+          id: (registeredStudents.length + 1).toString(),
+          studentName: student.studentName,
+          course: student.course
+      }
+      addStudentHandler(registeredStudent)
+  }
+
   return(
     <div>
-      <RegisteredStudent registeredStudent={DUMMY_REGISTERED_STUDENTS[0]} availableCourses={DUMMY_COURSES}></RegisteredStudent>
-      <RegisteredStudent registeredStudent={DUMMY_REGISTERED_STUDENTS[1]} availableCourses={DUMMY_COURSES}></RegisteredStudent>
+      <NewStudent onRegisteredNewStudent={newStudentRegisteredHandler}/>
+      {registeredStudents.map((registeredStudent) => {
+          return <RegisteredStudent registeredStudent={registeredStudent} availableCourses={DUMMY_COURSES}/>
+      })}
     </div>
   ) 
 }
