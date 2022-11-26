@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import './StudentForm.css'
+import dateFormatting from "../../utils/dateUtils";
 
 function StudentForm(props){
 
@@ -12,11 +13,9 @@ function StudentForm(props){
     }
 
     const courseNameChangeHandler = (event) => {
-        setEnteredCourseName(event.target.value);
-    };
-
-    const startDateChangeHandler = (event) => {
-        setEnteredStartDate(event.target.value);
+        let enteredCourse = event.target.value;
+        setEnteredCourseName(enteredCourse);
+        setEnteredStartDate(dateFormatting(props.courses[enteredCourse].startDate));
     };
 
     const submitHandler = (event) => {
@@ -30,7 +29,7 @@ function StudentForm(props){
         setEnteredStudentName('');
         setEnteredCourseName('');
         setEnteredStartDate('');
-        props.onRegisteredNewStudent(registeredStudent);
+        props.onSaveRegisteredStudentData(registeredStudent);
     }
 
     return(
@@ -54,12 +53,12 @@ function StudentForm(props){
 
                 <div className="new-registration__control">
                     <label>Course Start Date</label>
-                    <input type="date" onChange={startDateChangeHandler} value={enteredStartDate}/>
+                    <input type="date" value={enteredStartDate} disabled/>
                 </div>
             </div>
             <br></br>
             <div className="ew-registration__actions">
-                <button type="button">Cancel</button>
+                <button type="button" onClick={props.onCancel}>Cancel</button>
                 <button type="submit">Register Student</button>
             </div>
         </form>

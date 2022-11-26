@@ -3,18 +3,15 @@ import CourseDate from "./CourseDate";
 import './RegisteredStudent.css';
 
 function RegisteredStudent(props){
-    const {registeredStudent, availableCourses} = props;
-    const selectedCourse = availableCourses.find(course => {
-        return course.courseName.toString() === registeredStudent.course.toString()
-    });
+
+    const {course, studentName} = props;
+
     return(
-        <div>
+        <div className="registration-student card">
+            <CourseDate date={course.startDate}/>
             <div className="registration-student__description">
-                <h2>{registeredStudent.studentName}</h2>
-                <div className="registration-student__course">
-                    {registeredStudent.course}
-                </div>
-                <CourseDate selectedCourse={selectedCourse}/>
+                <h2>{studentName}</h2>
+                <div className="registration-student__course">{course.displayName}</div>
             </div>
         </div>
     )
