@@ -1,3 +1,9 @@
-h1 {
-    color: red;
+button {
+    font: inherit;
+    cursor: pointer;
+    background: #230052;
+    border: 1px solid #230052;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 20px;
 }
