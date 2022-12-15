@@ -1,47 +1,68 @@
-import React, {useRef, useState, useEffect, useContext, Fragment} from 'react';
-import AuthContext from "../../context/AuthProvider";
+import React, {useRef, useState, useEffect, Fragment, useContext} from "react";
 import classes from "./Login.module.css";
-
+import { authenticate } from "../../services/api";
+import {Link} from "react-router-dom";
+import AuthContext from "../context/AuthProvider";
 
 function Login() {
     const { setAuth } = useContext(AuthContext);
     const userRef = useRef();
     const errRef = useRef();
 
-    const [user, setUser] = useState('');
-    const [pwd, setPwd] = useState('');
-    const [errMsg, setErrMsg] = useState('');
+    const [user, setUser] = useState("");
+    const [pwd, setPwd] = useState("");
+
+    const [errMsg, setErrMsg] = useState("");
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
-    }, [])
+    }, []);
 
     useEffect(() => {
-        setErrMsg('');
+        setErrMsg("");
     }, [user, pwd]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setUser('');
-        setPwd('');
-        setSuccess(true);
-    }
+        try {
+            const userBody = {
+                username: user,
+                password: pwd,
+            };
+            const response = await authenticate(userBody);
+            console.log("this is response: " + JSON.stringify(response.data));
+            setSuccess(true);
+            setAuth(response.data.jwt)
+            setUser("");
+            setPwd("");
+        } catch (err) {
+            if (!err.response) {
+                setErrMsg("No Server Response");
+            } else if (err.response.status === 403) {
+                setErrMsg("Incorrect Username Or Password");
+            } else {
+                setErrMsg("Authentication Failed");
+            }
+            errRef.current.focus();
+        }
+    };
 
-
-    return(
+    return (
         <Fragment>
             {success ? (
                 <section>
                     <h1>You are logged in!</h1>
                     <br />
                     <p>
-                        <a href="#">Go to Home</a>
+                        <Link to={"/"}>Go to Home</Link>
                     </p>
                 </section>
             ) : (
                 <section>
-                    <p ref={errRef} className={errMsg ? classes.error_mes : "offscreen"} aria-live="assertive">{errMsg}</p>
+                    <p ref={errRef} className={errMsg ? classes.error_mes : "offscreen"}>
+                        {errMsg}
+                    </p>
                     <h1>Sign In</h1>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="userName">User Name:</label>
@@ -62,20 +83,21 @@ function Login() {
                             value={pwd}
                             required
                         />
-                        <button type="submit">Sign In</button>
+                        <button type="submit" disabled={!user || !pwd}>
+                            Sign In
+                        </button>
                     </form>
                     <p>
-                        Need an Account?<br />
+                        Need an Account?
+                        <br />
                         <span className="line">
-                            {/*put router link here*/}
-                            <a href="#">Sign Up</a>
-                                </span>
+                            <Link to="/signUp">Sign Up</Link>
+                        </span>
                     </p>
                 </section>
-            )
-            }
+            )}
         </Fragment>
-    )
+    );
 }
 
 export default Login;
