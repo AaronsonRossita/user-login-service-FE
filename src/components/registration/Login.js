@@ -31,7 +31,6 @@ function Login() {
                 password: pwd,
             };
             const response = await authenticate(userBody);
-            console.log("this is response: " + JSON.stringify(response.data));
             setSuccess(true);
             setAuth(response.data.jwt)
             setUser("");

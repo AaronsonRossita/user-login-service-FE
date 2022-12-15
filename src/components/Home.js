@@ -7,15 +7,10 @@ function Home() {
     const [testResponse, setTestResponse] = useState();
 
     useEffect(() => {
-        console.log("this is auth " + JSON.stringify(authContext["auth"]))
         if(Object.keys(authContext["auth"]).length > 0 ) {
-            console.log("heyyyyy")
-            testAuthenticatedApi({
-                    "Authorization": "Bearer " + authContext["auth"]
-            }
+            testAuthenticatedApi({"Authorization": "Bearer " + authContext["auth"]}
             ).then(
                 res => {
-                    console.log("this is res from authenticated api " + JSON.stringify(res));
                     setTestResponse(res.data.response);
                 }
             )

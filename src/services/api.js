@@ -14,6 +14,5 @@ export const authenticate = (userBody) => {
 }
 
 export const testAuthenticatedApi = (params) => {
-    console.log("this is header " + JSON.stringify(params))
     return axios.get(TEST_API(), {params: params});
 }
