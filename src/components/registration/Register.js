@@ -70,8 +70,8 @@ const Register = () => {
             }
             const response = await createNewUser(newUserBody);
             setSuccess(true);
+
             //clear state and controlled inputs
-            //need value attrib on inputs for this
             setUser('');
             setPwd('');
             setMatchPwd('');
