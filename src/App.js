@@ -7,10 +7,6 @@ import Navbar from "./components/Navbar";
 import {AuthProvider} from "./components/context/AuthProvider";
 
 function App(){
-    const handleReceiveJwtToken = () => {
-
-
-    }
     return(
         <>
             <AuthProvider>
