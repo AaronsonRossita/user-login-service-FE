@@ -13,7 +13,7 @@ function App(){
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/login" onReceiveJwtToken={handleReceiveJwtToken} element={<Login />}/>
+                    <Route path="/login" element={<Login />}/>
                     <Route path="/signUp" element={<Register />} />
                 </Routes>
             </AuthProvider>
